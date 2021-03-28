@@ -118,7 +118,7 @@ class CovidDataController {
                     std::cout << "Number of columns: ";
                     std::cin >> num_of_columns;
 
-                    cddao.display_records(row_start, num_of_records, num_of_columns);
+                    cddao.display_records(cddao.get_list(), row_start, num_of_records, num_of_columns);
                     break;
                 }
                 case CREATE: {
@@ -144,7 +144,7 @@ class CovidDataController {
                         break;
                     }
 
-                    cddao.display_records(row, 1, 16);
+                    cddao.display_records(cddao.get_list(), row, 1, 16);
                     std::cout << "Edit this record? y/n ";
                     char choice;
                     std::cin >> choice;
@@ -182,7 +182,7 @@ class CovidDataController {
                         break;
                     }
 
-                    cddao.display_records(row, 1, 16);
+                    cddao.display_records(cddao.get_list(), row, 1, 16);
                     std::cout << "Delete this record? y/n ";
                     char choice;
                     std::cin >> choice;
@@ -196,6 +196,7 @@ class CovidDataController {
                 }
 
                 case SEARCH: {
+                    // Dan LeBlanc, 040749264
                     std::string col_name;
                     std::string col_val;
                     std::map<std::string, std::string> criteria;
@@ -215,8 +216,12 @@ class CovidDataController {
 
                     std::vector<CovidDataSet> result_list = cddao.search(criteria);
 
-                    cddao.set_list(result_list);
-                    cddao.display_records(0, result_list.size(), 16);
+                    if (result_list.size() > 0) {
+                        cddao.display_records(result_list, 0, result_list.size(), 16);
+                    } else {
+                        std::cout << "No results found." << "\n";
+                    }
+                    
                     break;
                 }
 

@@ -4,8 +4,16 @@
 #include <algorithm>
 #include <map>
 
-// helper function, found at:
-// http://www.lonecpluspluscoder.com/2015/08/13/an-elegant-way-to-extract-keys-from-a-c-map/
+/**
+ * Extract keys from map
+ * 
+ * Helper function to extract keys from a given map.
+ * Found at: http://www.lonecpluspluscoder.com/2015/08/13/an-elegant-way-to-extract-keys-from-a-c-map/
+ * 
+ * @param input_map the map from which to get the keys
+ * 
+ * @return a list containing the keys from the map
+ */
 std::vector<std::string> extract_keys(std::map<std::string, std::string> const& input_map) {
   std::vector<std::string> retval;
   for (auto const& element : input_map) {
@@ -47,7 +55,7 @@ public:
     * @param number_of_columns number of columns to print
     * @param start the number to start printing rows on
     */
-    void display_records(size_t row_start, size_t num_of_rows, int num_of_columns) {
+    void display_records(std::vector<CovidDataSet> cds_list, size_t row_start, size_t num_of_rows, int num_of_columns) {
         if (row_start > cds_list.size() || row_start + num_of_rows > cds_list.size())
             throw std::runtime_error("Error: Tried to print past max number of rows.");
         if (num_of_columns > TOTAL_COLUMNS) 
@@ -174,7 +182,18 @@ public:
         cds_list.erase(cds_list.begin() + row_number);
     }
 
+    /**
+     * Search for a record
+     * 
+     * Searches the contained list of CovidDataSets for a matching row.
+     *
+     * @param criteria a map where the keys are names of columns to be searched for
+     * and values are column values to look for
+     * 
+     * @return a list containing all found rows that match the criteria 
+     */
     std::vector<CovidDataSet> search(std::map<std::string, std::string> criteria) {
+        // Dan LeBlanc, 040749264
         std::vector<std::string> keys = extract_keys(criteria);
         std::vector<CovidDataSet> result_list;
 
